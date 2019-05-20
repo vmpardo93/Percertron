@@ -101,16 +101,17 @@ public class Util {
             for (int j = 0; j < ancho; j++) {
                 Color pix= arreglo[i][j];
                 int promedio =(pix.getBlue()+pix.getRed()+pix.getGreen())/3;
-                if (promedio>umbral){ 
+                if (promedio<umbral){ 
                     arreglo[i][j]=Color.BLACK;
                     bins.add(1.0);
                 }
-                if(bins.size()>=10000){
+                if(bins.size()==10000){
                     return bins;
                 }
-                else
+                if(promedio>umbral){
                     arreglo[i][j] = Color.WHITE;
                     bins.add(0.0);
+                }
             }
         }
        return bins;
@@ -121,6 +122,7 @@ public class Util {
         for(int i=0;i<list.size();i++){
            
            if(i%100==0){
+              num=num/100;
               filas.add(num);
               num=0;
            } 
@@ -131,14 +133,13 @@ public class Util {
     public ArrayList<Double> sacarColumnas(ArrayList<Double> list){
         ArrayList<Double> columnas=new ArrayList<Double>();
         double num=0;
-        int acumulador=0;
-        while(acumulador<list.size()){
-           if(i%99==0){
-              columnas.add(num);
-              num=0;
-           } 
-           num=list.get(i)+num;
-           acumulador=acumulador+99;
+        for (int j = 0; j < 100; j++) {
+            for (int i = j; i < list.size(); i++) {
+                num=list.get(i)+num;
+                i=i+99;
+            }
+            num=num/100;
+            columnas.add(num);
         }
         return columnas;
     }

@@ -44,59 +44,68 @@ public class Core {
       bin.binarizarImagen(200);
       entradas=bin.convertirArreglo2dTo1Dv2(200);
       entradasfilas=bin.sacarFilas(entradas);
-        for (int i = 0; i < entradas.size(); i++) {
-            for(int j=0;j<entradas.size();j++){
-            NeuronaHide h1=new NeuronaHide();
+      entradascolumnas=bin.sacarColumnas(entradas);
+      entradas.clear();
+      for(int i=0;i<entradasfilas.size();i++){
+          entradas.add(entradasfilas.get(i));
+      }
+      for(int i=0;i<entradascolumnas.size();i++){
+          entradas.add(entradascolumnas.get(i));
+      }
+      for (int i = 0; i < entradas.size(); i++) {
+        NeuronaHide h1=new NeuronaHide();
+        for(int j=0;j<entradas.size();j++){
+            
             Double aux=entradas.get(j);
             h1.entradas.add(aux);
-            
-            }
-            capaHide.add(h1);
         }
+        capaHide.add(h1);
+       }
+      CapaY.add(y1);
       int fila=0;
       int iteraciones;
       
      // double errorEsperado=0.09;
-      while(fila<=3){
         iteraciones=1;
-        while(iteraciones<1000){//Ciclo que controla cuantas veces se realizan los calculos(ENTRENAMIENTO)
-            h1.entradas.clear();
-            h2.entradas.clear();
-            y1.entradas.clear();//limpiamos todos los array list
-            h1.entradas.add(arregloXOR[fila][0]);// se le pasa a cada neurona cada 0 y 1 de la matriz a analizar
-            h1.entradas.add(arregloXOR[fila][1]);//esto se debe hacer dinamico para que sea una entrada cualquiera de 0 y 1s
-            h2.entradas.add(arregloXOR[fila][0]);
-            h2.entradas.add(arregloXOR[fila][1]);
+        while(iteraciones<100000){//Ciclo que controla cuantas veces se realizan los calculos(ENTRENAMIENTO)
+            CapaY.get(0).entradas.clear();
             if(iteraciones==1){
-                h1.llenarPesos();//llenamos pesos con respecto a las entradas una sola vez
-                h2.llenarPesos();
+                for(int i=0;i<capaHide.size();i++){//llenamos pesos con respecto a las entradas una sola ve
+                    capaHide.get(i).llenarPesos();
+                }    
             }
             
-            h1.sumarPesos(); //sumamos pesos * entradas y los sumamos entre si 
-            h2.sumarPesos();
-            h1.activacionSigmoidal();
-            h2.activacionSigmoidal();//se activa la alida de cada neurona
-            y1.entradas.add(h1.y);//se pasan las salidadas a las neuronas de salida
-            y1.entradas.add(h2.y);
+             //sumamos pesos * entradas y los sumamos entre si 
+            for(int i=0;i<capaHide.size();i++){
+                    capaHide.get(i).sumarPesos();
+            } 
+            for(int i=0;i<capaHide.size();i++){//se activa la alida de cada neurona
+                    capaHide.get(i).activacionSigmoidal();
+            } 
+            for(int i=0;i<capaHide.size();i++){//se pasan las salidadas a las neuronas de salida
+                CapaY.get(0).entradas.add(capaHide.get(i).y);
+            } 
+            
             if(iteraciones==1){
-                y1.llenarPesos();
+                CapaY.get(0).llenarPesos();
             }
-            y1.sumarPesos();// se suman los pesos y entradas de la neurona de salida
-            y1.activacionSigmoidal();//se activa la salida de la neuronade salida
+            CapaY.get(0).sumarPesos();// se suman los pesos y entradas de la neurona de salida
+            CapaY.get(0).activacionSigmoidal();//se activa la salida de la neuronade salida
             //------backpropagation---------------------------------------
-            errorgeneral=y1.calcularErrorS(arregloXOR[fila][2]);// se calcula el error con lo obtenido comparandolo con las salida
-            y1.reCalculo(factorAprendizaje,errorgeneral);//se recalaculan los pesos y bias de la neurona de salida
-            h1.calcularError(errorgeneral);// se calcula error de las neuronas de la capa oculta
-            h2.calcularError(errorgeneral);
-            h1.reCalculo(factorAprendizaje);//se recalculan los pesos de las neuronas de la capa oculta pasandole el coeficiente de 
-            h2.reCalculo(factorAprendizaje);
-            
+            errorgeneral=CapaY.get(0).calcularErrorS(1.0);// se calcula el error con lo obtenido comparandolo con las salida
+            CapaY.get(0).reCalculo(factorAprendizaje,errorgeneral);//se recalaculan los pesos y bias de la neurona de salida
+            for(int i=0;i<capaHide.size();i++){
+                    capaHide.get(i).calcularError(errorgeneral);// se calcula error de las neuronas de la capa oculta
+            }
+            for(int i=0;i<capaHide.size();i++){
+                    capaHide.get(i).reCalculo(factorAprendizaje);// se calcula error de las neuronas de la capa oculta
+            } 
             
             iteraciones++;
         }
-        System.out.println(""+(int)arregloXOR[fila][0]+"\tXOR\t"+(int)arregloXOR[fila][1]+"\t=\t" + (int)arregloXOR[fila][2]+"\tCalculado: "+y1.y);
+        System.out.println("Calculado: "+CapaY.get(0).y);
             //incremento para la siguiente fila
-        fila++;
+        //fila++;
         System.out.println("el numero de iteraciones fue: "+iteraciones );
       }  
         
@@ -105,4 +114,4 @@ public class Core {
     
 
     
-}
+
