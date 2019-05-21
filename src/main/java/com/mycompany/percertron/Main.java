@@ -5,6 +5,7 @@
  */
 package com.mycompany.percertron;
 
+import Interface.Entrenar;
 import Logica.Core;
 import java.io.IOException;
 
@@ -19,7 +20,9 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
-        Core corazon=new Core();
+        Entrenar e = new Entrenar();
+        e.setVisible(true);
+        
         
     }
     

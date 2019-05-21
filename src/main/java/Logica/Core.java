@@ -19,12 +19,6 @@ import javax.imageio.ImageIO;
  * @author Darkgrey93
  */
 public class Core {
-    double [][] arregloXOR = {
-                        {1, 1, 0},
-                        {1, 0, 1},
-                        {0, 1, 1},
-                        {0, 0, 0}
-                        };
     
     Util bin=new Util("A.jpg");
     double errorgeneral;
@@ -36,11 +30,14 @@ public class Core {
     ArrayList<NeuronaHide> CapaY=new ArrayList<NeuronaHide>();
     //Factor de Aprendizaje
     double factorAprendizaje=0.5;
-    NeuronaHide h1=new NeuronaHide();
-    NeuronaHide h2=new NeuronaHide();
-    NeuronaHide y1=new NeuronaHide();
+    NeuronaHide y1=new NeuronaHide();// neuronas de salida
+    int nNeuronas;
+    double errorEsperado;
    
-    public Core() throws IOException {
+    public Core(double errorEsperado,double factorAprendizaje, int nNeuronas) throws IOException {
+      this.factorAprendizaje=factorAprendizaje;
+      this.nNeuronas=nNeuronas;
+      this.errorEsperado=nNeuronas;
       bin.binarizarImagen(200);
       entradas=bin.convertirArreglo2dTo1Dv2(200);
       entradasfilas=bin.sacarFilas(entradas);
@@ -52,7 +49,7 @@ public class Core {
       for(int i=0;i<entradascolumnas.size();i++){
           entradas.add(entradascolumnas.get(i));
       }
-      for (int i = 0; i < entradas.size(); i++) {
+      for (int i = 0; i < entradas.size(); i++) {//creamos la capa oculta
         NeuronaHide h1=new NeuronaHide();
         for(int j=0;j<entradas.size();j++){
             
@@ -61,13 +58,13 @@ public class Core {
         }
         capaHide.add(h1);
        }
-      CapaY.add(y1);
-      int fila=0;
+      CapaY.add(y1);// se crea la capa de salida
+      
       int iteraciones;
       
      // double errorEsperado=0.09;
         iteraciones=1;
-        while(iteraciones<100000){//Ciclo que controla cuantas veces se realizan los calculos(ENTRENAMIENTO)
+        while(iteraciones<1000){//Ciclo que controla cuantas veces se realizan los calculos(ENTRENAMIENTO)
             CapaY.get(0).entradas.clear();
             if(iteraciones==1){
                 for(int i=0;i<capaHide.size();i++){//llenamos pesos con respecto a las entradas una sola ve

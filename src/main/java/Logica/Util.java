@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import org.apache.commons.io. IOUtils;
+//import org.apache.commons.io. IOUtils;
 import java.util.ArrayList;
 /**
  *
@@ -31,24 +31,7 @@ public class Util {
         arreglo = new Color[anchoPermitido][anchoPermitido];
         cargarImagen(archivo);
     }
-    public ArrayList binarizar() throws FileNotFoundException{
-        ArrayList<Double> lista = new ArrayList<Double>();
-        byte[] imageInBytes = null;
-        FileInputStream myStream=new FileInputStream("C:\\a.jpg");
-        
-        try {
-            imageInBytes = IOUtils.toByteArray(myStream);
-        } catch (IOException ex) {
-            Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        for(int i=0;i<imageInBytes.length;i++){
-            byte tempByte;
-            tempByte=imageInBytes[i];
-            double tempDouble=tempByte;
-            lista.add(tempDouble);
-        }
-        return lista;
-    }
+   
     public void cargarImagen(String archivo){
         BufferedImage bf=null;
         try {
