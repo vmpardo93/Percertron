@@ -180,9 +180,8 @@ public class Entrenar extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
- public static int MAX_WIDTH=800;
-    //Alto máximo
-    public static int MAX_HEIGHT=800;
+  private static final int IMG_WIDTH = 500;
+	private static final int IMG_HEIGHT = 500;
     
     private void jMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemActionPerformed
         // TODO add your handling code here:
@@ -209,15 +208,27 @@ public class Entrenar extends javax.swing.JFrame {
     }
    
     }//GEN-LAST:event_jMenuItemActionPerformed
+//prueba
+    private static BufferedImage resizeImage(BufferedImage imagen, int type){
+		BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(imagen, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
+		g.dispose();
 
+		return resizedImage;
+    }
+    //
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        
         JFileChooser fc=new JFileChooser();
     int r=fc.showSaveDialog(null);
     if(r==JFileChooser.APPROVE_OPTION){
      File archivo=fc.getSelectedFile();
+     int type = imagen.getType() == 0? BufferedImage.TYPE_INT_ARGB : imagen.getType();
+     BufferedImage resizeImageJpg = resizeImage(imagen, type);
      try {
-      ImageIO.write(imagen, extension, archivo);
+      ImageIO.write(resizeImageJpg, extension, archivo);
      } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
