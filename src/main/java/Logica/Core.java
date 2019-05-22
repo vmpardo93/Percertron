@@ -28,14 +28,14 @@ public class Core {
     ArrayList<Double> entradascolumnas=new ArrayList<Double>();
     ArrayList<NeuronaHide> capaHide=new ArrayList<NeuronaHide>();
     ArrayList<NeuronaHide> CapaY=new ArrayList<NeuronaHide>();
-    ArrayList<Double> lista=new ArrayList<Double>();
+    ArrayList<Double> listaErrores=new ArrayList<Double>();
     //Factor de Aprendizaje
     double factorAprendizaje=0.5;
     NeuronaHide y1=new NeuronaHide();// neuronas de salida
     int nNeuronas;
     double errorEsperado;
    
-    public ArrayList Core(double errorEsperado,double factorAprendizaje, int nNeuronas) throws IOException {
+    public  Core(double errorEsperado,double factorAprendizaje, int nNeuronas) throws IOException {
       this.factorAprendizaje=factorAprendizaje;
       this.nNeuronas=nNeuronas;
       this.errorEsperado=nNeuronas;
@@ -50,7 +50,7 @@ public class Core {
       for(int i=0;i<entradascolumnas.size();i++){
           entradas.add(entradascolumnas.get(i));
       }
-      for (int i = 0; i < entradas.size(); i++) {//creamos la capa oculta
+      for (int i = 0; i < nNeuronas; i++) {//creamos la capa oculta
         NeuronaHide h1=new NeuronaHide();
         for(int j=0;j<entradas.size();j++){
             
@@ -65,7 +65,8 @@ public class Core {
       
      // double errorEsperado=0.09;
         iteraciones=1;
-        while(iteraciones<1000){//Ciclo que controla cuantas veces se realizan los calculos(ENTRENAMIENTO)
+        boolean aux=true;
+        while(aux==true){//Ciclo que controla cuantas veces se realizan los calculos(ENTRENAMIENTO)
             CapaY.get(0).entradas.clear();
             if(iteraciones==1){
                 for(int i=0;i<capaHide.size();i++){//llenamos pesos con respecto a las entradas una sola ve
@@ -91,6 +92,11 @@ public class Core {
             CapaY.get(0).activacionSigmoidal();//se activa la salida de la neuronade salida
             //------backpropagation---------------------------------------
             errorgeneral=CapaY.get(0).calcularErrorS(1.0);// se calcula el error con lo obtenido comparandolo con las salida
+            listaErrores.add(errorgeneral);
+            System.out.println("Error"+errorgeneral);
+            if(errorgeneral<errorEsperado){
+                aux=false;
+            }
             CapaY.get(0).reCalculo(factorAprendizaje,errorgeneral);//se recalaculan los pesos y bias de la neurona de salida
             for(int i=0;i<capaHide.size();i++){
                     capaHide.get(i).calcularError(errorgeneral);// se calcula error de las neuronas de la capa oculta
@@ -101,12 +107,15 @@ public class Core {
             
             iteraciones++;
         }
-        
+        ;
         System.out.println("Calculado: "+CapaY.get(0).y);
             //incremento para la siguiente fila
         //fila++;
         System.out.println("el numero de iteraciones fue: "+iteraciones );
       }  
+    public ArrayList RetornarErrores(){
+        return listaErrores;
+    }
         
     }
         

@@ -23,12 +23,16 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
@@ -42,7 +46,7 @@ public class Entrenar extends javax.swing.JFrame {
      */
     JFreeChart Grafica;
     DefaultCategoryDataset datos = new DefaultCategoryDataset();
-    ArrayList<Double> lista=new ArrayList<Double>();
+    ArrayList<Double> listaErrores=new ArrayList<Double>();
     public Entrenar() {
         initComponents();
     }
@@ -56,10 +60,10 @@ public class Entrenar extends javax.swing.JFrame {
     
     File fichero;
      BufferedImage imagen;
- ImageIcon img=null;
- JPanel panelprincipal;
- String extension="JPG";
- JLabel JLabelfoto;
+    ImageIcon img=null;
+    JPanel panelprincipal;
+    String extension="JPG";
+    JLabel JLabelfoto;
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -268,11 +272,30 @@ public class Entrenar extends javax.swing.JFrame {
     }//GEN-LAST:event_JLabelfoto1AncestorRemoved
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        double factor;
-        double error;
-        double nNeuronas;
-        Core corazon=new Core();
+        jPanel1.removeAll();
+        jPanel1.repaint();
+        try {
+            // TODO add your handling code here:
+            double factor=Double.parseDouble(jT_Factor.getText());
+            double error=Double.parseDouble(jT_Error.getText());
+            int nNeuronas = Integer.parseInt(jT_Nneuronas.getText());
+            Core corazon=new Core(error,factor,nNeuronas);
+            listaErrores=corazon.RetornarErrores();
+        } catch (IOException ex) {
+            Logger.getLogger(Entrenar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (int i=0;i<listaErrores.size();i++) {
+            double error;
+            error=this.listaErrores.get(i);
+            int j = i + 1;
+            datos.addValue(error, "Error General", "Iteracion"+j);
+            Grafica = ChartFactory.createLineChart("Error General","Iteracion", "Final Error",
+                    datos,PlotOrientation.VERTICAL, true, true, false);
+        }  
+        ChartPanel panel = new ChartPanel(Grafica);
+        jPanel1.setLayout(new java.awt.BorderLayout());
+        jPanel1.add(panel);   
+        jPanel1.validate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
