@@ -28,13 +28,14 @@ public class Core {
     ArrayList<Double> entradascolumnas=new ArrayList<Double>();
     ArrayList<NeuronaHide> capaHide=new ArrayList<NeuronaHide>();
     ArrayList<NeuronaHide> CapaY=new ArrayList<NeuronaHide>();
+    ArrayList<Double> lista=new ArrayList<Double>();
     //Factor de Aprendizaje
     double factorAprendizaje=0.5;
     NeuronaHide y1=new NeuronaHide();// neuronas de salida
     int nNeuronas;
     double errorEsperado;
    
-    public Core(double errorEsperado,double factorAprendizaje, int nNeuronas) throws IOException {
+    public ArrayList Core(double errorEsperado,double factorAprendizaje, int nNeuronas) throws IOException {
       this.factorAprendizaje=factorAprendizaje;
       this.nNeuronas=nNeuronas;
       this.errorEsperado=nNeuronas;
@@ -100,6 +101,7 @@ public class Core {
             
             iteraciones++;
         }
+        
         System.out.println("Calculado: "+CapaY.get(0).y);
             //incremento para la siguiente fila
         //fila++;
