@@ -6,6 +6,7 @@
 package Interface;
 
 import Logica.Core;
+import Logica.Listas;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -47,6 +48,8 @@ public class Entrenar extends javax.swing.JFrame {
     JFreeChart Grafica;
     DefaultCategoryDataset datos = new DefaultCategoryDataset();
     ArrayList<Double> listaErrores=new ArrayList<Double>();
+    ArrayList<Double> listaPesos=new ArrayList<Double>();
+    Listas lista = new Listas();
     public Entrenar() {
         initComponents();
     }
@@ -77,6 +80,7 @@ public class Entrenar extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         JLabelfoto1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu = new javax.swing.JMenu();
         jMenuItem = new javax.swing.JMenuItem();
@@ -118,6 +122,13 @@ public class Entrenar extends javax.swing.JFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Aplicacion");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -172,7 +183,9 @@ public class Entrenar extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(194, 194, 194)))
+                                .addGap(39, 39, 39)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(54, 54, 54)))
                         .addComponent(JLabelfoto1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24))))
         );
@@ -194,7 +207,9 @@ public class Entrenar extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jT_Factor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(28, 28, 28)
-                        .addComponent(jButton1))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(JLabelfoto1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -279,8 +294,16 @@ public class Entrenar extends javax.swing.JFrame {
             double factor=Double.parseDouble(jT_Factor.getText());
             double error=Double.parseDouble(jT_Error.getText());
             int nNeuronas = Integer.parseInt(jT_Nneuronas.getText());
-            Core corazon=new Core(error,factor,nNeuronas);
+            Core corazon=new Core();
+            if(lista.getCapaHide().size()!=0 && lista.getCapaY().size()!=0){
+                lista=corazon.reentrenar(lista.getCapaHide(), lista.getCapaY(), error, factor, nNeuronas);
+            }
+            if(lista.getCapaHide().size()==0 || lista.getCapaY().size()==0){
+                lista=corazon.entrenar(error,factor,nNeuronas);
+            }
+            
             listaErrores=corazon.RetornarErrores();
+            listaPesos=corazon.RetornarPesos();
         } catch (IOException ex) {
             Logger.getLogger(Entrenar.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -292,11 +315,30 @@ public class Entrenar extends javax.swing.JFrame {
             Grafica = ChartFactory.createLineChart("Error General","Iteracion", "Final Error",
                     datos,PlotOrientation.VERTICAL, true, true, false);
         }  
+        for (int i=0;i<listaPesos.size();i++) {
+            double peso;
+            peso=this.listaPesos.get(i);
+            int j = i + 1;
+            datos.addValue(peso, "Pesos", "Iteracion"+j);
+            Grafica = ChartFactory.createLineChart("Pesos","Iteracion", "Final Peso",
+                    datos,PlotOrientation.VERTICAL, true, true, false);
+        }  
         ChartPanel panel = new ChartPanel(Grafica);
         jPanel1.setLayout(new java.awt.BorderLayout());
         jPanel1.add(panel);   
         jPanel1.validate();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if(lista.getCapaY().size()!=0 && lista.getCapaHide().size()!=0){
+            Aplicacion app=new Aplicacion(lista);
+            app.setVisible(true);
+            this.setVisible(false);
+        }else{
+            System.out.println("No hay un etrenamienti previo por favor entrene");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -336,6 +378,7 @@ public class Entrenar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel JLabelfoto1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
