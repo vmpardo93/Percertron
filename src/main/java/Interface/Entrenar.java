@@ -53,6 +53,10 @@ public class Entrenar extends javax.swing.JFrame {
     public Entrenar() {
         initComponents();
     }
+    public Entrenar(Listas lista) {
+        initComponents();
+        this.lista=lista;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -133,6 +137,16 @@ public class Entrenar extends javax.swing.JFrame {
         });
 
         jMenu.setText("Cargar Foto");
+        jMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuActionPerformed(evt);
+            }
+        });
+        jMenu.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jMenuKeyPressed(evt);
+            }
+        });
 
         jMenuItem.setText("Cargar");
         jMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -339,6 +353,15 @@ public class Entrenar extends javax.swing.JFrame {
             System.out.println("No hay un etrenamienti previo por favor entrene");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jMenuKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuKeyPressed
+
+    private void jMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jMenuActionPerformed
 
     /**
      * @param args the command line arguments
