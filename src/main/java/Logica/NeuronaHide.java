@@ -31,7 +31,7 @@ public class NeuronaHide {
         y=y+(1+bias);
     }
     public void activacionSigmoidal (){
-        y = 1.0/(1 + Math.pow(Math.E, (-1) * y));
+        y = 1.0/(1 + (Math.pow(Math.E, (-1 * y))));
     }
     
     public void calcularError(double num){

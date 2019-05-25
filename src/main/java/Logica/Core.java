@@ -44,9 +44,10 @@ public class Core {
         this.factorAprendizaje=factorAprendizaje;
         this.nNeuronas=nNeuronas;
         this.errorEsperado=errorEsperado;
-        bin.binarizarImagen(200);
-        entradas=bin.convertirArreglo2dTo1Dv2(200);
-        entradasfilas=bin.sacarFilas(entradas);//sacamos promedios filas
+        //bin.binarizarImagen(200);Esto es para blanco y negro
+        //entradas=bin.convertirArreglo2dTo1Dv2(200);Esto es para blanco y negro
+        entradas=bin.obtenerRgb();
+        /*entradasfilas=bin.sacarFilas(entradas);//sacamos promedios filas
         entradascolumnas=bin.sacarColumnas(entradas);//sacamos promedios de columnas
         entradas.clear();//limpiamos el arreglo 1d
         for(int i=0;i<entradasfilas.size();i++){
@@ -54,7 +55,7 @@ public class Core {
         }
         for(int i=0;i<entradascolumnas.size();i++){
           entradas.add(entradascolumnas.get(i));// lo volvemos a armar
-        }
+        }*/
         int iteraciones;
         for(int i = 0; i<200;i++){
             capaHide.get(i).entradas.clear();//limpiamos entradas antiguas
@@ -91,7 +92,7 @@ public class Core {
             capaY.get(0).sumarPesos();// se suman los pesos y entradas de la neurona de salida
             capaY.get(0).activacionSigmoidal();//se activa la salida de la neuronade salida
             //------backpropagation---------------------------------------
-            errorgeneral=capaY.get(0).calcularErrorS(1.0);// se calcula el error con lo obtenido comparandolo con las salida
+            errorgeneral=capaY.get(0).calcularErrorS(1);// se calcula el error con lo obtenido comparandolo con las salida
             listaErrores.add(errorgeneral);
             NeuronaHide n=capaHide.get((int)(capaHide.size()*Math.random()));
             listaPesos.add(n.pesos.get(n.pesos.size()-1));
@@ -119,21 +120,21 @@ public class Core {
         return listas;
     }
     public Listas entrenar(double errorEsperado,double factorAprendizaje, int nNeuronas)throws IOException{
-        Util bin=new Util("A2.jpg");
+       Util bin=new Util("A2.jpg");
       this.factorAprendizaje=factorAprendizaje;
       this.nNeuronas=nNeuronas;
       this.errorEsperado=nNeuronas;
-      bin.binarizarImagen(200);
-      entradas=bin.convertirArreglo2dTo1Dv2(200);
-      entradasfilas=bin.sacarFilas(entradas);//sacamos promedios filas
-      entradascolumnas=bin.sacarColumnas(entradas);//sacamos promedios de columnas
-      entradas.clear();//limpiamos el arreglo 1d
-      for(int i=0;i<entradasfilas.size();i++){
+      //bin.binarizarImagen(200); Esto es para imagenes a blanco y negro
+      entradas=bin.obtenerRgb();
+      //entradasfilas=bin.sacarFilas(entradas);//sacamos promedios filas
+      //entradascolumnas=bin.sacarColumnas(entradas);//sacamos promedios de columnas
+      //entradas.clear();//limpiamos el arreglo 1d
+      /*for(int i=0;i<entradasfilas.size();i++){
           entradas.add(entradasfilas.get(i));//lo volvemos a armar
       }
       for(int i=0;i<entradascolumnas.size();i++){
           entradas.add(entradascolumnas.get(i));// lo volvemos a armar
-      }
+      }*/
       for (int i = 0; i < nNeuronas; i++) {//creamos la capa oculta
         NeuronaHide h1=new NeuronaHide();
         for(int j=0;j<entradas.size();j++){
@@ -156,7 +157,7 @@ public class Core {
                 for(int i=0;i<capaHide.size();i++){//llenamos pesos con respecto a las entradas una sola ve
                     capaHide.get(i).llenarPesos();
                 }    
-            }
+        }
             
              //sumamos pesos * entradas y los sumamos entre si 
             for(int i=0;i<capaHide.size();i++){
@@ -175,7 +176,7 @@ public class Core {
             CapaY.get(0).sumarPesos();// se suman los pesos y entradas de la neurona de salida
             CapaY.get(0).activacionSigmoidal();//se activa la salida de la neuronade salida
             //------backpropagation---------------------------------------
-            errorgeneral=CapaY.get(0).calcularErrorS(1.0);// se calcula el error con lo obtenido comparandolo con las salida
+            errorgeneral=CapaY.get(0).calcularErrorS(1);// se calcula el error con lo obtenido comparandolo con las salida
             listaErrores.add(errorgeneral);
             NeuronaHide n=capaHide.get((int)(capaHide.size()*Math.random()));
             listaPesos.add(n.pesos.get(n.pesos.size()-1));
@@ -204,19 +205,20 @@ public class Core {
         return listas; 
     }
     public double aplicacion(ArrayList<NeuronaHide> capaHide,ArrayList<NeuronaHide> capaY){
-        Util bin=new Util("A3.jpg");
-        bin.binarizarImagen(200);
-        entradas=bin.convertirArreglo2dTo1Dv2(200);
-        entradasfilas=bin.sacarFilas(entradas);//sacamos promedios filas
-        entradascolumnas=bin.sacarColumnas(entradas);//sacamos promedios de columnas
-        entradas.clear();//limpiamos el arreglo 1d
-        for(int i=0;i<entradasfilas.size();i++){
+        Util bin=new Util("Negro.jpg");
+        double yoriginal=capaY.get(0).y;
+        //bin.binarizarImagen(200);
+        //entradas=bin.convertirArreglo2dTo1Dv2(200);
+        entradas=bin.obtenerRgb();
+        //entradasfilas=bin.sacarFilas(entradas);//sacamos promedios filas
+        //entradascolumnas=bin.sacarColumnas(entradas);//sacamos promedios de columnas
+        //entradas.clear();//limpiamos el arreglo 1d
+        /*for(int i=0;i<entradasfilas.size();i++){
             entradas.add(entradasfilas.get(i));//lo volvemos a armar
         }
         for(int i=0;i<entradascolumnas.size();i++){
           entradas.add(entradascolumnas.get(i));// lo volvemos a armar
-        }
-        int iteraciones;
+        }*/
         for(int i = 0; i<200;i++){
             capaHide.get(i).entradas.clear();//limpiamos entradas antiguas
         }
@@ -227,25 +229,23 @@ public class Core {
                 capaHide.get(i).entradas.add(aux);
             }
         }
-        capaY.get(0).entradas.clear();
-     // double errorEsperado=0.09;
-        iteraciones=1;
-        boolean aux=true;
-        capaY.get(0).entradas.clear();
+        capaY.get(0).entradas.clear();//se limpian entradas antiguas de capa de salida
         for(int i=0;i<capaHide.size();i++){
-                    capaHide.get(i).sumarPesos();
-            } 
-            for(int i=0;i<capaHide.size();i++){//se activa la alida de cada neurona
-                    capaHide.get(i).activacionSigmoidal();
-            } 
-            for(int i=0;i<capaHide.size();i++){//se pasan las salidadas a las neuronas de salida
+            capaHide.get(i).sumarPesos();//sumamos pesos
+        } 
+        for(int i=0;i<capaHide.size();i++){//se activa la alida de cada neurona
+            capaHide.get(i).activacionSigmoidal();
+        } 
+        for(int i=0;i<capaHide.size();i++){//se pasan las salidadas a las neuronas de salida
                
-                capaY.get(0).entradas.add(capaHide.get(i).y);
+            capaY.get(0).entradas.add(capaHide.get(i).y);
                 
-            } 
+        } 
             
         capaY.get(0).sumarPesos();// se suman los pesos y entradas de la neurona de salida
         capaY.get(0).activacionSigmoidal();//se activa la salida de la neuronade salida
+        yoriginal=capaY.get(0).y;
+        System.out.println("este fue y final "+yoriginal);
         return capaY.get(0).y;
     }
     public ArrayList RetornarErrores(){
