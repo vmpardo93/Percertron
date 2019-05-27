@@ -247,10 +247,13 @@ public class Entrenar extends javax.swing.JFrame {
       Entrenar.this.setSize(new Dimension(imagen.getWidth(),imagen.getHeight()));
       extension=fc.getSelectedFile().toURL().toString().substring(fc.getSelectedFile().toURL().toString().length()-3, fc.getSelectedFile().toURL().toString().length()).toUpperCase();
       System.out.println(extension);
-      img=new ImageIcon(imagen);
-      JLabelfoto=new JLabel(img);
-      JLabelfoto1.add(JLabelfoto);
-      JLabelfoto1.repaint();
+      //img=new ImageIcon(imagen);
+      //JLabelfoto=new JLabel(img);
+      ImageIcon fot = new ImageIcon(imagen);
+      Icon icono = new ImageIcon(fot.getImage().getScaledInstance(jLabel1.getWidth(), jLabel1.getHeight(), Image.SCALE_DEFAULT));
+      JLabelfoto1.setIcon(icono);
+      
+      JLabelfoto1.setIcon(new ImageIcon(imagen));
       repaint();
      } catch (MalformedURLException e) {
       // TODO Auto-generated catch block
@@ -283,6 +286,8 @@ public class Entrenar extends javax.swing.JFrame {
      BufferedImage resizeImageJpg = resizeImage(imagen, type);
      try {
       ImageIO.write(resizeImageJpg, extension, archivo);
+         String ruta = archivo.getAbsolutePath();
+         System.out.println(ruta);
      } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
