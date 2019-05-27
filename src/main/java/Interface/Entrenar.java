@@ -321,7 +321,7 @@ public class Entrenar extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(Entrenar.class.getName()).log(Level.SEVERE, null, ex);
         }
-        /*for (int i=0;i<listaErrores.size();i++) {
+        for (int i=0;i<listaErrores.size();i++) {
             double error;
             error=this.listaErrores.get(i);
             int j = i + 1;
@@ -337,10 +337,10 @@ public class Entrenar extends javax.swing.JFrame {
             Grafica = ChartFactory.createLineChart("Pesos","Iteracion", "Final Peso",
                     datos,PlotOrientation.VERTICAL, true, true, false);
         }  
-        //ChartPanel panel = new ChartPanel(Grafica);
-        //jPanel1.setLayout(new java.awt.BorderLayout());
-        //jPanel1.add(panel);   
-        //jPanel1.validate();*/
+        ChartPanel panel = new ChartPanel(Grafica);
+        jPanel1.setLayout(new java.awt.BorderLayout());
+        jPanel1.add(panel);   
+        jPanel1.validate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

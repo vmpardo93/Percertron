@@ -25,10 +25,11 @@ public class NeuronaHide {
     public void sumarPesos(){
         for(int i=0;i<entradas.size();i++){
             
-            y=entradas.get(i)*pesos.get(i);
+            y=(entradas.get(i)*pesos.get(i))+(1+bias);
             
         }
-        y=y+(1+bias);
+        //y=y+(1+bias);
+        
     }
     public void activacionSigmoidal (){
         y = 1.0/(1 + (Math.pow(Math.E, (-1 * y))));
@@ -76,8 +77,8 @@ public class NeuronaHide {
         double nums;
         
         for(int i=0;i<entradas.size();i++){
-            nums=new Random().nextDouble();;
-            nums=(nums+0.001)*0.001;
+            nums=new Random().nextDouble();
+            nums=(nums+0.001)*0.01;
             pesos.add(nums);
         }
     }
