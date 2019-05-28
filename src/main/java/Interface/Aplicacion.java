@@ -54,6 +54,11 @@ public class Aplicacion extends javax.swing.JFrame {
         jL_Resultado.setBackground(new java.awt.Color(51, 255, 51));
 
         jButton2.setText("Volver a entrenamiento");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,6 +104,13 @@ public class Aplicacion extends javax.swing.JFrame {
         jL_Resultado.setText(resul+"%");
     
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Entrenar  e=new Entrenar(lista);
+        e.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

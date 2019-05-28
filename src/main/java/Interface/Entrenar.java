@@ -50,6 +50,7 @@ public class Entrenar extends javax.swing.JFrame {
     ArrayList<Double> listaErrores=new ArrayList<Double>();
     ArrayList<Double> listaPesos=new ArrayList<Double>();
     Listas lista = new Listas();
+    String ruta="";
     public Entrenar() {
         initComponents();
     }
@@ -234,8 +235,8 @@ public class Entrenar extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-  private static final int IMG_WIDTH = 500;
-	private static final int IMG_HEIGHT = 500;
+  private static final int IMG_WIDTH = 200;
+	private static final int IMG_HEIGHT = 200;
     
     private void jMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemActionPerformed
         // TODO add your handling code here:
@@ -278,7 +279,7 @@ public class Entrenar extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         
-        JFileChooser fc=new JFileChooser();
+    JFileChooser fc=new JFileChooser();
     int r=fc.showSaveDialog(null);
     if(r==JFileChooser.APPROVE_OPTION){
      File archivo=fc.getSelectedFile();
@@ -286,7 +287,7 @@ public class Entrenar extends javax.swing.JFrame {
      BufferedImage resizeImageJpg = resizeImage(imagen, type);
      try {
       ImageIO.write(resizeImageJpg, extension, archivo);
-         String ruta = archivo.getAbsolutePath();
+         this.ruta = archivo.getAbsolutePath();
          System.out.println(ruta);
      } catch (IOException e) {
       // TODO Auto-generated catch block
@@ -308,6 +309,8 @@ public class Entrenar extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jPanel1.removeAll();
         jPanel1.repaint();
+        
+        
         try {
             // TODO add your handling code here:
             double factor=Double.parseDouble(jT_Factor.getText());
@@ -315,10 +318,10 @@ public class Entrenar extends javax.swing.JFrame {
             int nNeuronas = Integer.parseInt(jT_Nneuronas.getText());
             Core corazon=new Core();
             if(lista.getCapaHide().size()!=0 && lista.getCapaY().size()!=0){
-                lista=corazon.reentrenar(lista.getCapaHide(), lista.getCapaY(), error, factor, nNeuronas);
+                lista=corazon.reentrenar(lista.getCapaHide(), lista.getCapaY(), error, factor, nNeuronas,ruta);
             }
             if(lista.getCapaHide().size()==0 || lista.getCapaY().size()==0){
-                lista=corazon.entrenar(error,factor,nNeuronas);
+                lista=corazon.entrenar(error,factor,nNeuronas,ruta);
             }
             
             listaErrores=corazon.RetornarErrores();

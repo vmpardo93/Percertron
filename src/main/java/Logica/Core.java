@@ -40,8 +40,8 @@ public class Core {
       
     }  
     
-    public Listas reentrenar(ArrayList<NeuronaHide> capaHide,ArrayList<NeuronaHide> capaY,double errorEsperado,double factorAprendizaje, int nNeuronas){
-        Util bin=new Util("A.jpg");
+    public Listas reentrenar(ArrayList<NeuronaHide> capaHide,ArrayList<NeuronaHide> capaY,double errorEsperado,double factorAprendizaje, int nNeuronas, String ruta){
+        Util bin=new Util(ruta);
         this.factorAprendizaje=factorAprendizaje;
         this.nNeuronas=nNeuronas;
         this.errorEsperado=errorEsperado;
@@ -121,8 +121,8 @@ public class Core {
         listas.setCapaY(capaY);
         return listas;
     }
-    public Listas entrenar(double errorEsperado,double factorAprendizaje, int nNeuronas)throws IOException{
-       Util bin=new Util("PruebaA1.png");//carga la imagen a la clase util
+    public Listas entrenar(double errorEsperado,double factorAprendizaje, int nNeuronas,String ruta)throws IOException{
+       Util bin=new Util(ruta);//carga la imagen a la clase util
       this.factorAprendizaje=factorAprendizaje;
       this.nNeuronas=nNeuronas;
       this.errorEsperado=errorEsperado;
